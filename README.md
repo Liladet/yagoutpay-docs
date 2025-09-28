@@ -12,7 +12,7 @@ A comprehensive SDK documentation for integrating YagoutPay's payment methods .
 
 ## 📚 Documentation
 
-Explore detailed guides and API specifications at [https://yagoutpay.netlify.app/](https://yagoutpay.netlify.app/).
+Explore detailed guides and API specifications .
 
 📄 License
 MIT License. See LICENSE.
@@ -22,6 +22,6 @@ Repository:
 - https://github.com/Liladet/yagoutpay
 - https://github.com/Liladet/yagoutpay-integretion
 - https://github.com/Liladet/yagoutpay-static-and-dynamic-sdk
-- Documentation: https://yagoutpay.netlify.app/
+
 
 
