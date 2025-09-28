@@ -28,7 +28,7 @@
   --ifm-background-color: #ffffff; /* White background in dark mode too */
   --ifm-background-surface-color: #ffffff;
   --ifm-font-color-base: #000000; /* Blue */
-  --ifm-font-color-secondary: #d1d5db;
+  --ifm-font-color-secondary: ##000000;
   --ifm-color-emphasis-100: #374151;
   --ifm-color-emphasis-200: #4b5563;
   --ifm-color-emphasis-300: #6b7280;
