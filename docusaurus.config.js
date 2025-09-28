@@ -117,6 +117,8 @@ const config = {
   ],
 
   plugins: [require.resolve("./plugins/webpack-yaml")],
+  url: "https://yagoutpay.netlify.app",
+  baseUrl: "/",
 
   headTags: [
     {

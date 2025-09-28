@@ -1,12 +1,12 @@
-# Stage 3: Usage
+## Stage 3: Usage
 
-## YagoutPay Static and Dynamic Payment Methods: Usage
+# YagoutPay Static and Dynamic Payment Methods: Usage
 
-- This document provides a clear usage guide for integrating YagoutPay's dynamic payment method using the Python SDK, as implemented in the repository at [CLICK HERE](https://github.com/Liladet/yagoutpay-dynamic-payment-method).
+This document provides a clear usage guide for integrating YagoutPay's dynamic and static payment methods using the Python SDK, as implemented in the repository at [CLICK HERE](https://github.com/Liladet/yagoutpay-static-and-dynamic-sdk).
 
-- This section explains how to use the Python SDK for dynamic payment links .
+- This section explains how to use the Python SDK for dynamic payment links and static QR code payments.
 
-# Dynamic Payment Link
+## Dynamic Payment Link
 
 1. Prepare the Payload
 
@@ -61,12 +61,42 @@ print(response)  # Example: {"status": "success", "link": "<payment_url>"}
 
 - Use ngrok to expose the server (ngrok http 3000) and update URLs in the payload.
 
+## Static QR Code Payment
+
+![click](image.png)
+
+1. Prepare the Payload
+
+- Create a payload with required fields (as shown in static_link_sdk.py).
+
+2. Generate the Static Payment Link and QR Code
+
+- Use the static_link_sdk.py script to create a static payment link and generate a QR code image.
+
+- The script:
+
+  - Encrypts the payload using AES-256-CBC with a static IV (0123456789abcdef).
+  - Sends a POST request to /sdk/staticQRPaymentResponse.
+  - Decrypts the response to extract the staticLink and qrId.
+  - Generates a QR code image encoding the staticLink and saves it (e.g., payment_qr_6495373221.png).
+
+- Handle the Response
+
+  - If successful, the response contains a staticLink (payment URL) and qrId (QR code identifier).
+  - The QR code image is saved locally with a filename based on the qrId.
+  - If an error occurs, check the errorMessage or sysErrorMessage fields (e.g., "Invalid encrypted payload").
+  - Share the QR code image or staticLink with customers via SMS, email, or physical displays.
+
+Use the generated QR code image (e.g., payment_qr_6495373221.png) for physical displays or digital sharing.
+
 # Additional Notes
 
-- Encryption: dynamic methods use AES-256-CBC with a 32-byte key and static IV (0123456789abcdef), as implemented in encryption.py.
+- Encryption: Both dynamic and static methods use AES-256-CBC with a 32-byte key and static IV (0123456789abcdef), as implemented in encryption.py or inline in static_link_sdk.py.
 
 - API Endpoints:
-- Dynamic: /sdk/paymentByLinkResponse
+
+  - Dynamic: /sdk/paymentByLinkResponse
+  - Static: /sdk/staticQRPaymentResponse
 
 - Testing:
 - Test with small amounts (e.g., 1.00 ETB).
@@ -78,6 +108,6 @@ print(response)  # Example: {"status": "success", "link": "<payment_url>"}
 - Verify ngrok URLs for callbacks.
 - Debug API responses using print statements or logging.
 
-- Repository: Refer to [CLICK HERE](https://github.com/Liladet/yagoutpay-dynamic-payment-method) for the latest code and examples.
+- Repository: Refer to [CLICK HERE](https://github.com/Liladet/yagoutpay-static-and-dynamic-sdk) for the latest code and examples.
 
-This guide enables developers to set up and use YagoutPay’s dynamic payment method with Python for secure and flexible payment processing.
+This guide enables developers to set up and use YagoutPay’s dynamic and static payment methods with Python for secure and flexible payment processing.
