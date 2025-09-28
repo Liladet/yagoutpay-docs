@@ -20,7 +20,7 @@ MIT License. See LICENSE.
 
 Repository:
 - https://github.com/Liladet/yagoutpay
-- https://github.com/Liladet/yagoutpay-integretion
+- https://github.com/Liladet/yagoutpay_payement
 - https://github.com/Liladet/yagoutpay-static-and-dynamic-sdk
 
 
