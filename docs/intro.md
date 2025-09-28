@@ -24,7 +24,7 @@ Payment integration with Python/Flask backend and React frontend.
   <span class="tech-badge">React</span>
 </div>
 
-<a href="http://localhost:3000/yagoutpay-docs/docs/stage1/setup" class="stage-link">
+<a href="https://yagoutpay.netlify.app/docs/stage1/setup" class="stage-link">
   Explore Stage 1 <i class="fas fa-arrow-right"></i>
 </a>
 
@@ -43,7 +43,7 @@ multi-language API integration for maximum flexibility. Ideal for custom integra
   <span class="tech-badge">Node.js</span>
 </div>
 
-<a href="http://localhost:3000/yagoutpay-docs/docs/stage2/python" class="stage-link">
+<a href="https://yagoutpay.netlify.app/docs/stage2/python" class="stage-link">
   Explore Stage 2 <i class="fas fa-arrow-right"></i>
 </a>
 
@@ -61,7 +61,7 @@ Advanced payment solutions for diverse business needs. Advanced features for com
   <span class="tech-badge">API</span>
 </div>
 
-<a href="http://localhost:3000/yagoutpay-docs/docs/stage3/setup" class="stage-link">
+<a href="https://yagoutpay.netlify.app/docs/stage3/setup" class="stage-link">
   Explore Stage 3 <i class="fas fa-arrow-right"></i>
 </a>
 
