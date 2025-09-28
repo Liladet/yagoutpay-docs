@@ -18,9 +18,10 @@ Explore detailed guides and API specifications at [https://yagoutpay.netlify.app
 MIT License. See LICENSE.
 🌐 Resources
 
-Repository: https://github.com/Liladet/yagoutpay
-          : https://github.com/Liladet/yagoutpay-integretion
-          : https://github.com/Liladet/yagoutpay-static-and dynamic-sdk
-Documentation: https://yagoutpay.netlify.app/
+Repository:
+- https://github.com/Liladet/yagoutpay
+- https://github.com/Liladet/yagoutpay-integretion
+- https://github.com/Liladet/yagoutpay-static-and-dynamic-sdk
+- Documentation: https://yagoutpay.netlify.app/
 
 
