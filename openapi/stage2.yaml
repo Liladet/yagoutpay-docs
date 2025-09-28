@@ -1,0 +1,136 @@
+openapi: 3.0.3
+info:
+  title: YagoutPay Direct API Integration
+  description: |
+    # Stage 2: Direct API Integration
+     ## 🌟 Complete Payment Integration for 4 Programming Languages
+
+    - Ready-to-use SDKs documentation for Python, Node.js, C# (.NET), and PHP (Laravel). 
+    Process payments directly in your application .
+
+    ## 🔄 API Flow Process
+
+    **Simple Two-Step Payment Processing:**
+    1. **Encrypt** payload at `/othersRedirection/encryption`
+    2. **Process** payment at `/apiRedirection/apiIntegration`
+    3. **Receive** encrypted response with transaction details`
+    4. **Decrypt** response for final payment status`
+    5. **Handle** success, failure, or pending states in your app`
+    6. **Optional**: Set up webhooks for real-time payment notifications`
+
+
+    ## 🚀 Quick Start for Developers
+
+    **Choose your language and start processing payments in minutes:**
+    - **Python** - Flask/Django applications
+    - **Node.js** - Express.js, React, Vue.js backends  
+    - **C#** - .NET Core, ASP.NET applications
+    - **PHP/Laravel** - Laravel, WordPress, custom PHP
+
+    ## 📁 GitHub Repository
+    **Complete source code and examples:** 
+    [https://github.com/Liladet/yagoutpay_payement](https://github.com/Liladet/yagoutpay_payement)
+
+    ## 🔐 Security First
+    - AES-256-CBC encryption for all payloads
+    - Automatic encryption/decryption handling
+    - Webhook support for real-time notifications
+
+servers:
+  - url: https://uatcheckout.yagoutpay.com/ms-transaction-core-1-0
+    description: Testing Environment
+
+paths:
+  /othersRedirection/encryption:
+    post:
+      summary: Step 1 - Encrypt Payment Data
+      description: |
+        ## API Flow - Step 1
+        Encrypt payment data before processing.
+      operationId: encryptPayload
+      tags:
+        - Encryption
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: string
+                  description: JSON payment data to encrypt
+                  example: '{"amount": 100, "currency": "ETB", "orderId": "123"}'
+      responses:
+        "200":
+          description: Encrypted payload ready for Step 2
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  encrypted:
+                    type: string
+                    description: Encrypted data for payment processing
+                    example: "CXAemespskAQCvLNox2fF3HiAXKEwk4BskvpTlYu5/5M1rdzFcY+LOMSMbHtWqAr..."
+
+  /apiRedirection/apiIntegration:
+    post:
+      summary: Step 2 - Process Payment
+      description: |
+        ## API Flow - Step 2
+        Process encrypted payment data.
+      operationId: processPayment
+      tags:
+        - Payments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - merchantId
+                - merchantRequest
+              properties:
+                merchantId:
+                  type: string
+                  description: Your merchant identifier
+                  example: "202508080001"
+                merchantRequest:
+                  type: string
+                  description: Encrypted payload from Step 1
+                  example: "base64_encrypted_from_previous_step"
+      responses:
+        "200":
+          description: Payment processed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentResponse"
+
+components:
+  schemas:
+    PaymentResponse:
+      type: object
+      description: Standard payment response format
+      properties:
+        status:
+          type: string
+          enum: [Success, Pending, Failed, Error]
+          example: "Success"
+        statusMessage:
+          type: string
+          example: "Payment processed successfully"
+        response:
+          type: string
+          example: "encrypted_response_data"
+        transactionId:
+          type: string
+          example: "txn_987654321"
+        timestamp:
+          type: string
+          format: date-time
+          example: "2024-01-15T10:30:00Z"

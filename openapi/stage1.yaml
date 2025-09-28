@@ -1,0 +1,493 @@
+openapi: 3.0.3
+info:
+  title: YagoutPay Hosted Checkout API
+  description: |
+    # YagoutPay Hosted Checkout API Documentation
+
+    Welcome to the YagoutPay Hosted Checkout API! This service allows merchants to securely redirect customers to YagoutPay's hosted payment page with full encryption and automatic form submission.
+
+    ## 🚀 Quick Overview
+
+    - **For Merchants**: Secure payment processing with minimal integration
+    - **For Developers**: Simple form-based integration with AES-256-CBC encryption
+    - **Auto-Redirect**: Customers automatically redirected to secure payment page
+    - **Instant Processing**: Real-time payment processing with immediate results
+
+    ## How It Works
+
+    1. **Prepare** your payment information (amount, order details, etc.)
+    2. **Encrypt** the data using your merchant encryption key
+    3. **Submit** the encrypted data via POST form
+    4. **Redirect** customer automatically to secure payment page
+    5. **Process** payment and redirect to your callback URLs
+
+    ## Support
+    - **Merchant Support**: support@yagoutpay.com
+    - **Technical Issues**: tech@yagoutpay.com
+    - **Documentation**: https://docs.yagoutpay.com
+
+  version: 1.0.0
+  contact:
+    name: YagoutPay API Support
+    email: support@yagoutpay.com
+    url: https://www.yagoutpay.com
+
+servers:
+  - url: https://uatcheckout.yagoutpay.com/ms-transaction-core-1-0
+    description: |
+      🔧 **Testing Environment** - Use this for development and testing
+
+paths:
+  /paymentRedirection/checksumGatewayPage:
+    post:
+      summary: 🔄 Initiate Hosted Checkout Payment
+      description: |
+        # Hosted Checkout Payment
+
+        Securely redirect customers to YagoutPay's hosted payment page with encrypted transaction data.
+
+        ## 🎯 Perfect For:
+        - **E-commerce websites**
+        - **Online services**
+        - **Digital products**
+        - **Subscription payments**
+
+        ## ⚡ Quick Flow:
+        1. Encrypt your payment data
+        2. Submit via POST form
+        3. Customer automatically redirected to payment page
+        4. Payment results sent to your callback URLs
+
+        ## 📋 What You'll Need
+        - Your Merchant ID (`me_id`)
+        - Your Encryption Key (from merchant dashboard)
+        - Transaction details (amount, order ID, etc.)
+        - Callback URLs (success/failure)
+
+        The response will be an HTML form that auto-submits to redirect the customer to the payment page.
+      operationId: initiateHostedCheckout
+      tags:
+        - Hosted Checkout
+      requestBody:
+        required: true
+        description: |
+          ## 🔒 Encrypted Payment Form Data
+
+          Your payment information must be encrypted for security before sending to our API.
+
+          ### 📝 Before Encryption (Example Structure):
+          ```plaintext
+          yagout|202508080001|12345|100.00|ETH|ETB|SALE|https://yourdomain.com/success|https://yourdomain.com/failure|WEB~|||~||||~John Doe|john@email.com|0909260339||Y~|||||~|||||||~||~~|||||
+          ```
+
+          ### 🔐 After Encryption (What you send):
+          ```form-data
+          me_id=202508080001&merchant_request=CXAemespskAQCvLNox2fF3HiAXKEwk4BskvpTlYu5/5M1rdzFcY...&hash=encrypted_sha256_hash_here
+          ```
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - me_id
+                - merchant_request
+                - hash
+              properties:
+                me_id:
+                  type: string
+                  example: "202508080001"
+                  description: |
+                    🔑 **Your Merchant ID**
+
+                    This identifies your business in our system. You can find this in your YagoutPay merchant dashboard under Account Settings.
+                merchant_request:
+                  type: string
+                  description: |
+                    ### 🔒 Base64 Encrypted Transaction Data
+
+                    This field contains your transaction information encrypted using AES-256-CBC encryption with your merchant key.
+
+                    **Format**: Base64 encoded string
+                    **Encryption**: AES-256-CBC
+                    **Security**: Enterprise-grade encryption
+                  example: "CXAemespskAQCvLNox2fF3HiAXKEwk4BskvpTlYu5/5M1rdzFcY+LOMSMbHtWqAr..."
+                hash:
+                  type: string
+                  description: Base64-encoded AES-256-CBC encrypted SHA-256 hash for data integrity verification
+                  example: "encrypted_sha256_hash_here"
+            examples:
+              standardCheckout:
+                summary: ✅ Sample Hosted Checkout Request
+                description: This is what a successfully encrypted hosted checkout request looks like
+                value:
+                  me_id: "202508080001"
+                  merchant_request: "CXAemespskAQCvLNox2fF3HiAXKEwk4BskvpTlYu5/5M1rdzFcY+LOMSMbHtWqAr..."
+                  hash: "encrypted_sha256_hash_here"
+      responses:
+        "200":
+          description: |
+            ✅ **Success! Redirecting to Payment Page**
+
+            Customer is being automatically redirected to the secure YagoutPay payment gateway.
+          content:
+            text/html:
+              schema:
+                type: string
+              examples:
+                redirectPage:
+                  summary: 🔄 Auto-Submit Payment Form
+                  description: HTML form that automatically submits to redirect customer to payment page
+                  value: |
+                    <html>
+                    <body onload="document.forms[0].submit()">
+                      <form method="POST" action="https://payment.yagoutpay.com/checkout">
+                        <input type="hidden" name="transaction_id" value="txn_12345">
+                        <!-- Payment page redirects automatically -->
+                      </form>
+                    </body>
+                    </html>
+        "400":
+          description: |
+            ❌ **Request Error**
+
+            There was an issue with your request. Common causes:
+            - Invalid merchant ID
+            - Malformed encrypted data
+            - Hash verification failure
+            - Incorrect pipe counts in transaction structure
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                errorExample:
+                  summary: Example Error Response
+                  value:
+                    status: "Error"
+                    statusMessage: "Invalid merchantRequest"
+
+components:
+  schemas:
+    TransactionPayload:
+      type: object
+      description: |
+        ## 📊 Transaction Data Structure (Before Encryption)
+
+        The plaintext data that gets encrypted and sent as `merchant_request`.
+        Uses pipe-separated values in specific order with exact field counts.
+      properties:
+        aggregator_id:
+          type: string
+          example: "yagout"
+          description: Fixed aggregator identifier
+        merchant_id:
+          type: string
+          example: "202508080001"
+          description: Your merchant ID
+        order_no:
+          type: string
+          example: "12345"
+          description: Unique order identifier
+        amount:
+          type: string
+          example: "100.00"
+          description: Transaction amount
+        currency_code:
+          type: string
+          example: "ETH"
+          description: Currency code
+        transaction_currency:
+          type: string
+          example: "ETB"
+          description: Transaction currency
+        transaction_type:
+          type: string
+          example: "SALE"
+          description: Type of transaction
+        success_url:
+          type: string
+          format: uri
+          example: "https://yourdomain.com/success"
+          description: URL to redirect after successful payment
+        failure_url:
+          type: string
+          format: uri
+          example: "https://yourdomain.com/failure"
+          description: URL to redirect after failed payment
+        channel:
+          type: string
+          example: "WEB"
+          description: Transaction channel
+
+    ErrorResponse:
+      type: object
+      description: |
+        ## ❌ Error Response
+
+        If something goes wrong, you'll receive an error response with details about what needs to be fixed.
+      properties:
+        status:
+          type: string
+          example: "Error"
+          description: Will always be "Error" for failed requests
+        statusMessage:
+          type: string
+          example: "Invalid merchantRequest"
+          description: Human-readable error message explaining what went wrong
+
+# Security & Encryption Details
+x-security-info:
+  title: "🔒 Security Overview"
+  description: |
+    ## Enterprise-Grade Security
+
+    YagoutPay uses bank-level security to protect your transactions and customer data.
+
+    ### Encryption Standards
+    - **Algorithm**: AES-256-CBC (Military-grade encryption)
+    - **Key Length**: 256-bit (32 bytes)
+    - **IV**: Static 16-byte initialization vector
+    - **Encoding**: Base64 for safe transmission
+    - **Padding**: PKCS7
+
+    ### Data Integrity
+    - **Hash Verification**: SHA-256 hash for data integrity
+    - **Dual Encryption**: Both transaction data and hash are encrypted
+    - **Secure Transmission**: SSL/TLS encrypted connections
+
+    ### Compliance
+    - PCI DSS Level 1 Certified
+    - SSL/TLS encrypted connections
+    - Regular security audits
+
+# Step-by-Step Implementation Guide
+x-implementation-guide:
+  for-merchants: |
+    ## 🏪 For Merchants: Quick Start
+
+    ### Step 1: Get Your Credentials
+    1. Log into your YagoutPay Merchant Dashboard
+    2. Go to **API Settings**
+    3. Copy your:
+       - Merchant ID (`me_id`)
+       - Encryption Key
+
+    ### Step 2: Prepare Your Website
+    1. Add checkout button to your website
+    2. Implement the encryption logic (or use our libraries)
+    3. Set up callback URLs for payment results
+
+    ### Step 3: Go Live
+    1. Test with small amounts in UAT environment
+    2. Switch to production when ready
+    3. Monitor payments in your dashboard
+
+  for-developers: |
+    ## 💻 For Developers: API Integration
+
+    ### Prerequisites
+    - Programming knowledge (Python, JavaScript, etc.)
+    - Your merchant credentials
+    - Basic understanding of encryption
+
+    ### Step 1: Install Dependencies
+    ```bash
+    # Python example
+    pip install pycryptodome
+    ```
+
+    ### Step 2: Encryption Setup
+    Use the code examples below to encrypt your transaction data
+
+    ### Step 3: Form Integration
+    Create HTML form that posts to our endpoint with encrypted data
+
+    ### Testing
+    Always test with small amounts in the UAT environment first!
+
+# Ready-to-Use Code Examples
+x-code-examples:
+  python-full-example:
+    language: python
+    title: "🐍 Complete Python Flask Example"
+    description: "Copy and paste this code to start accepting payments in minutes"
+    code: |
+      import hashlib
+      import base64
+      import random
+      import string
+      from flask import Flask, Response
+      from Crypto.Cipher import AES
+      from Crypto.Util.Padding import pad
+
+      app = Flask(__name__)
+
+      # Configuration - Replace with your actual credentials
+      MERCHANT_ID = "202508080001"
+      MERCHANT_KEY = base64.b64decode("IG3CNW5uNrUO2mU2htUOWb9rgXCF7XMAXmL63d7wNZo=")
+      IV = b"0123456789abcdef"
+      AGGREGATOR_ID = "yagout"
+      PAYMENT_URL = "https://uatcheckout.yagoutpay.com/ms-transaction-core-1-0/paymentRedirection/checksumGatewayPage"
+
+      def encrypt_aes(plaintext: str) -> str:
+          """Encrypt using AES-256-CBC with static IV"""
+          cipher = AES.new(MERCHANT_KEY, AES.MODE_CBC, IV)
+          padded = pad(plaintext.encode("utf-8"), AES.block_size)
+          return base64.b64encode(cipher.encrypt(padded)).decode("utf-8")
+
+      def generate_payment_request(amount="100.00", name="Test User", email="test@email.com", phone="0909260339"):
+          """Generate encrypted payment request"""
+          order_no = ''.join(random.choices(string.digits, k=5))
+
+          # Transaction details (pipe-separated)
+          txn_details = "|".join([
+              AGGREGATOR_ID,
+              MERCHANT_ID,
+              order_no,
+              amount,
+              "ETH",
+              "ETB",
+              "SALE",
+              "https://yourdomain.com/success",  # Your success URL
+              "https://yourdomain.com/failure",  # Your failure URL
+              "WEB"
+          ])
+
+          # Other sections with exact pipe counts
+          pg_details = "|||"
+          card_details = "|||||"
+          cust_details = "|".join([name, email, phone, "", "Y"])
+          bill_details = "|||||"
+          ship_details = "|||||||"
+          item_details = "||"
+          upi_details = ""  # Empty string, no pipes
+          other_details = "|||||"
+
+          # Combine all sections with tilde separator
+          full_message = "~".join([
+              txn_details, pg_details, card_details, cust_details,
+              bill_details, ship_details, item_details, upi_details, other_details
+          ])
+
+          # Generate hash for verification
+          hash_input = f"{MERCHANT_ID}~{order_no}~{amount}~ETH~ETB"
+          sha256_hex = hashlib.sha256(hash_input.encode()).hexdigest()
+
+          # Encrypt both message and hash
+          enc_message = encrypt_aes(full_message)
+          enc_hash = encrypt_aes(sha256_hex)
+
+          return enc_message, enc_hash
+
+      @app.route("/checkout")
+      def hosted_checkout():
+          """Initiate hosted checkout - auto-submits to YagoutPay"""
+          enc_message, enc_hash = generate_payment_request(amount="100.00")
+
+          # HTML form that auto-submits to payment gateway
+          html_form = f'''
+          <!DOCTYPE html>
+          <html>
+          <body onload="document.forms[0].submit()">
+            <form method="POST" action="{PAYMENT_URL}">
+              <input type="hidden" name="me_id" value="{MERCHANT_ID}" />
+              <input type="hidden" name="merchant_request" value="{enc_message}" />
+              <input type="hidden" name="hash" value="{enc_hash}" />
+              <noscript>
+                <p>Please enable JavaScript for automatic redirect.</p>
+                <input type="submit" value="Proceed to Payment" />
+              </noscript>
+            </form>
+          </body>
+          </html>
+          '''
+          return Response(html_form, mimetype="text/html")
+
+      # Callback handlers
+      @app.route("/success")
+      def payment_success():
+          return "✅ Payment completed successfully!"
+
+      @app.route("/failure")
+      def payment_failure():
+          return "❌ Payment failed. Please try again."
+
+      if __name__ == "__main__":
+          app.run(port=5000, debug=True)
+
+  curl-simple-test:
+    language: bash
+    title: "🔧 Quick Test with curl"
+    description: "Test the API directly from your command line"
+    code: |
+      # Replace with your actual encrypted data
+      curl -X POST \
+        https://uatcheckout.yagoutpay.com/ms-transaction-core-1-0/paymentRedirection/checksumGatewayPage \
+        -H "Content-Type: application/x-www-form-urlencoded" \
+        -d "me_id=202508080001&merchant_request=your_encrypted_data_here&hash=your_encrypted_hash_here"
+
+# Transaction Structure Details
+x-transaction-structure:
+  title: "🏗️ Transaction Structure Guide"
+  description: |
+    ## Pipe-Separated Transaction Format
+
+    The full message structure with exact pipe counts:
+
+    ```plaintext
+    txn_details~pg_details~card_details~cust_details~bill_details~ship_details~item_details~upi_details~other_details
+    ```
+
+    **Field Breakdown:**
+    - `txn_details`: aggregator_id|merchant_id|order_no|amount|currency_code|transaction_currency|transaction_type|success_url|failure_url|channel
+    - `pg_details`: ||| (3 empty fields)
+    - `card_details`: ||||| (5 empty fields) 
+    - `cust_details`: name|email|phone||Y (5 fields)
+    - `bill_details`: ||||| (5 empty fields)
+    - `ship_details`: ||||||| (7 empty fields)
+    - `item_details`: || (2 empty fields)
+    - `upi_details`: (empty string)
+    - `other_details`: ||||| (5 empty fields)
+
+  hash-generation: |
+    ## 🔐 SHA-256 Hash Input Format
+
+    ```python
+    hash_input = f"{merchant_id}~{order_no}~{amount}~{currency_code}~{transaction_currency}"
+    sha256_hash = hashlib.sha256(hash_input.encode()).hexdigest()
+    ```
+
+# Frequently Asked Questions
+x-faq:
+  - question: "How do I get my encryption key?"
+    answer: "Your encryption key is available in the YagoutPay merchant dashboard under API Settings."
+
+  - question: "What if the customer disables JavaScript?"
+    answer: "The form includes a noscript tag with a manual submit button as fallback."
+
+  - question: "Can I customize the payment page appearance?"
+    answer: "Yes! You can customize the payment page with your logo and brand colors through the merchant dashboard."
+
+  - question: "How do I handle payment callbacks?"
+    answer: "Set up success_url and failure_url endpoints on your server to handle payment results."
+
+  - question: "What currencies are supported?"
+    answer: "We support ETB, USD, EUR, and other major currencies. Contact support for specific requirements."
+
+# Support Information
+x-support:
+  getting-help: |
+    ## 📞 Need Help?
+
+    ### Merchant Support
+    - **Email**: support@yagoutpay.com
+    - **Phone**: +251-XXX-XXXXXX
+    - **Hours**: 24/7 support available
+
+    ### Developer Resources
+    - **API Documentation**: https://docs.yagoutpay.com/api
+    - **GitHub Examples**: https://github.com/yagoutpay/examples
+    - **Technical Forum**: https://community.yagoutpay.com
+
+    ### Emergency Issues
+    For urgent payment-related issues, contact our priority support line available in your merchant dashboard.

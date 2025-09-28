@@ -1,0 +1,624 @@
+/* Modern Homepage CSS with White Background and Sparkle Animations */
+
+:root {
+  --primary: #1e40af; /* Blue */
+  --accent: #dc2626; /* Red */
+  --gradient: linear-gradient(135deg, #1e40af 0%, #dc2626 100%);
+  --text-primary: #1e40af;
+  --text-accent: #dc2626;
+}
+
+[data-theme='dark'] {
+  --primary: #3b82f6;
+  --accent: #ef4444;
+  --text-primary: #1e40af;
+  --text-accent: #dc2626;
+}
+
+/* Sparkle Animations */
+@keyframes sparkleMove {
+  0% { transform: translate(0, 0) rotate(0deg) scale(0); opacity: 0; }
+  50% { transform: translate(100px, -50px) rotate(180deg) scale(1); opacity: 1; }
+  100% { transform: translate(200px, 0) rotate(360deg) scale(0); opacity: 0; }
+}
+
+@keyframes gentlePulse {
+  0%, 100% { transform: scale(1); opacity: 0.1; }
+  50% { transform: scale(1.05); opacity: 0.2; }
+}
+
+/* Hero Banner - White Background with Sparkles */
+.heroBanner {
+  padding: 6rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(30, 64, 175, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(220, 38, 38, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(30, 64, 175, 0.03) 0%, transparent 50%);
+}
+
+.heroBanner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(30, 64, 175, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(220, 38, 38, 0.1) 0%, transparent 50%);
+  animation: gentlePulse 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: linear-gradient(45deg, var(--primary), var(--accent));
+  border-radius: 50%;
+  animation: sparkleMove 4s linear infinite;
+  pointer-events: none;
+}
+
+.sparkle1 { top: 20%; left: 10%; animation-delay: 0s; }
+.sparkle2 { top: 60%; left: 15%; animation-delay: 1s; }
+.sparkle3 { top: 40%; left: 85%; animation-delay: 2s; }
+.sparkle4 { top: 80%; left: 75%; animation-delay: 3s; }
+.sparkle5 { top: 30%; left: 50%; animation-delay: 0.5s; }
+
+.heroContent {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.heroTitle {
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  position: relative;
+  display: inline-block;
+}
+
+.heroTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 4px;
+  background: var(--gradient);
+  border-radius: 2px;
+  animation: gentlePulse 2s ease-in-out infinite;
+}
+
+.heroSubtitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-accent);
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.heroTagline {
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin-bottom: 3rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  opacity: 0.9;
+  position: relative;
+}
+
+.heroTagline::before {
+  content: '"';
+  font-size: 4rem;
+  color: var(--accent);
+  opacity: 0.3;
+  position: absolute;
+  left: -30px;
+  top: -20px;
+}
+
+/* Tutorial Button with Sparkle Effect */
+.tutorialButton {
+  display: inline-flex;
+  align-items: center;
+  background: var(--accent);
+  color: #ffffff;
+  padding: 1.2rem 3.5rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.4rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 
+    0 6px 20px rgba(220, 38, 38, 0.3),
+    0 0 0 0 rgba(220, 38, 38, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tutorialButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.6s;
+}
+
+.tutorialButton:hover::before {
+  left: 100%;
+}
+
+.tutorialButton:hover {
+  background: #b91c1c;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 10px 30px rgba(220, 38, 38, 0.5),
+    0 0 20px 10px rgba(220, 38, 38, 0.2);
+  animation: buttonPulse 1.5s infinite;
+}
+
+@keyframes buttonPulse {
+  0% { box-shadow: 0 10px 30px rgba(220, 38, 38, 0.5), 0 0 20px 10px rgba(220, 38, 38, 0.2); }
+  50% { box-shadow: 0 10px 30px rgba(220, 38, 38, 0.5), 0 0 30px 15px rgba(220, 38, 38, 0.3); }
+  100% { box-shadow: 0 10px 30px rgba(220, 38, 38, 0.5), 0 0 20px 10px rgba(220, 38, 38, 0.2); }
+}
+
+.tutorialButton i {
+  margin-left: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.tutorialButton:hover i {
+  transform: translateX(8px) scale(1.2);
+}
+
+/* Modern Homepage CSS with White Background and Larger Sparkle Animations */
+
+:root {
+  --primary: #1e40af; /* Blue */
+  --accent: #dc2626; /* Red */
+  --gradient: linear-gradient(135deg, #1e40af 0%, #dc2626 100%);
+  --text-primary: #1e40af;
+  --text-accent: #dc2626;
+}
+
+[data-theme='dark'] {
+  --primary: #3b82f6;
+  --accent: #ef4444;
+  --text-primary: #1e40af;
+  --text-accent: #dc2626;
+}
+
+/* Sparkle Animations - Larger Size */
+@keyframes sparkleMove {
+  0% { transform: translate(0, 0) rotate(0deg) scale(0); opacity: 0; }
+  50% { transform: translate(150px, -75px) rotate(180deg) scale(1.5); opacity: 1; } /* Increased movement and scale */
+  100% { transform: translate(300px, 0) rotate(360deg) scale(0); opacity: 0; }
+}
+
+@keyframes gentlePulse {
+  0%, 100% { transform: scale(1); opacity: 0.1; }
+  50% { transform: scale(1.08); opacity: 0.3; } /* Enhanced pulse */
+}
+
+/* Hero Banner - White Background with Larger Sparkles */
+.heroBanner {
+  padding: 6rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(30, 64, 175, 0.08) 0%, transparent 50%), /* Increased opacity */
+    radial-gradient(circle at 80% 20%, rgba(220, 38, 38, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(30, 64, 175, 0.05) 0%, transparent 50%);
+}
+
+.heroBanner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(30, 64, 175, 0.15) 0%, transparent 50%), /* Increased opacity */
+    radial-gradient(circle at 80% 20%, rgba(220, 38, 38, 0.15) 0%, transparent 50%);
+  animation: gentlePulse 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  width: 8px; /* Increased from 3px */
+  height: 8px; /* Increased from 3px */
+  background: linear-gradient(45deg, var(--primary), var(--accent));
+  border-radius: 50%;
+  animation: sparkleMove 5s linear infinite; /* Slower animation */
+  pointer-events: none;
+  box-shadow: 0 0 20px rgba(30, 64, 175, 0.6); /* Larger glow */
+  z-index: 1;
+}
+
+.sparkle1 { top: 15%; left: 5%; animation-delay: 0s; }
+.sparkle2 { top: 65%; left: 10%; animation-delay: 1s; }
+.sparkle3 { top: 35%; left: 90%; animation-delay: 2s; }
+.sparkle4 { top: 85%; left: 70%; animation-delay: 3s; }
+.sparkle5 { top: 25%; left: 45%; animation-delay: 0.5s; }
+.sparkle6 { top: 75%; left: 30%; animation-delay: 2.5s; } /* Added more sparkles */
+.sparkle7 { top: 45%; left: 80%; animation-delay: 1.5s; }
+.sparkle8 { top: 10%; left: 60%; animation-delay: 3.5s; }
+
+.heroContent {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.heroTitle {
+  font-size: 4.5rem; /* Slightly larger */
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  position: relative;
+  display: inline-block;
+  text-shadow: 0 2px 10px rgba(30, 64, 175, 0.2); /* Added text shadow */
+}
+
+.heroTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -12px; /* Increased spacing */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px; /* Wider line */
+  height: 5px; /* Thicker line */
+  background: var(--gradient);
+  border-radius: 3px;
+  animation: gentlePulse 2s ease-in-out infinite;
+}
+
+.heroSubtitle {
+  font-size: 2.2rem; /* Slightly larger */
+  font-weight: 700;
+  color: var(--text-accent);
+  margin-bottom: 1.5rem; /* Increased spacing */
+  line-height: 1.3;
+  text-shadow: 0 2px 8px rgba(220, 38, 38, 0.2); /* Added text shadow */
+}
+
+.heroTagline {
+  font-size: 1.4rem; /* Slightly larger */
+  color: var(--text-primary);
+  margin-bottom: 3.5rem; /* Increased spacing */
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  opacity: 0.9;
+  position: relative;
+  font-weight: 500; /* Slightly bolder */
+}
+
+.heroTagline::before {
+  content: '"';
+  font-size: 5rem; /* Larger quote */
+  color: var(--accent);
+  opacity: 0.4; /* Slightly more visible */
+  position: absolute;
+  left: -40px; /* Adjusted positioning */
+  top: -30px;
+}
+
+/* Tutorial Button with Enhanced Sparkle Effect */
+.tutorialButton {
+  display: inline-flex;
+  align-items: center;
+  background: var(--accent);
+  color: #ffffff;
+  padding: 1.3rem 4rem; /* Larger padding */
+  border-radius: 15px; /* More rounded */
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.5rem; /* Larger font */
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 
+    0 8px 25px rgba(220, 38, 38, 0.4), /* Larger shadow */
+    0 0 0 0 rgba(220, 38, 38, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1.5px; /* Increased letter spacing */
+  position: relative;
+  overflow: hidden;
+}
+
+.tutorialButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.6s;
+}
+
+.tutorialButton:hover::before {
+  left: 100%;
+}
+
+.tutorialButton:hover {
+  background: #b91c1c;
+  transform: translateY(-4px) scale(1.06); /* Enhanced hover */
+  box-shadow: 
+    0 12px 35px rgba(220, 38, 38, 0.6),
+    0 0 25px 15px rgba(220, 38, 38, 0.3); /* Larger glow */
+  animation: buttonPulse 1.5s infinite;
+}
+
+@keyframes buttonPulse {
+  0% { box-shadow: 0 12px 35px rgba(220, 38, 38, 0.6), 0 0 25px 15px rgba(220, 38, 38, 0.3); }
+  50% { box-shadow: 0 12px 35px rgba(220, 38, 38, 0.6), 0 0 35px 20px rgba(220, 38, 38, 0.4); }
+  100% { box-shadow: 0 12px 35px rgba(220, 38, 38, 0.6), 0 0 25px 15px rgba(220, 38, 38, 0.3); }
+}
+
+.tutorialButton i {
+  margin-left: 1.2rem; /* More spacing */
+  transition: transform 0.3s ease;
+  font-size: 1.5rem; /* Larger icon */
+}
+
+.tutorialButton:hover i {
+  transform: translateX(10px) scale(1.3); /* Enhanced hover effect */
+}
+
+/* Sections with subtle animations */
+.featuresSection {
+  padding: 5rem 0;
+  background: #f8fafc;
+  position: relative;
+}
+
+.featuresSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(30, 64, 175, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(220, 38, 38, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.sectionTitle {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.sectionSubtitle {
+  font-size: 1.3rem;
+  color: var(--text-accent);
+  font-weight: 600;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Stages Section */
+.stagesSection {
+  padding: 5rem 0;
+  background: #ffffff;
+}
+
+.stagesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.stage {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border-left: 4px solid var(--primary);
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.stage:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.stageNumber {
+  background: var(--gradient);
+  color: #ffffff;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.stage:hover .stageNumber {
+  transform: scale(1.1);
+}
+
+.stageContent h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.stageContent p {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* Benefits Section */
+.benefitsSection {
+  padding: 5rem 0;
+  background: var(--gradient);
+  color: #ffffff;
+  text-align: center;
+}
+
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.benefitCard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.benefitCard:hover {
+  transform: translateY(-5px);
+}
+
+.benefitIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.benefitCard h4 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.benefitCard p {
+  font-size: 1rem;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+
+/* Responsive Design */
+@media (max-width: 996px) {
+  .heroTitle {
+    font-size: 3.5rem;
+  }
+  .heroSubtitle {
+    font-size: 1.8rem;
+  }
+  .sparkle {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroBanner {
+    padding: 4rem 0;
+  }
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+  .heroSubtitle {
+    font-size: 1.4rem;
+  }
+  .tutorialButton {
+    padding: 1.1rem 3rem;
+    font-size: 1.3rem;
+  }
+  .sparkle {
+    width: 4px;
+    height: 4px;
+  }
+}
+/* Responsive Design */
+@media (max-width: 996px) {
+  .heroTitle {
+    font-size: 3rem;
+  }
+  .heroSubtitle {
+    font-size: 1.6rem;
+  }
+  .sparkle {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroBanner {
+    padding: 4rem 0;
+  }
+  .heroTitle {
+    font-size: 2.2rem;
+  }
+  .heroSubtitle {
+    font-size: 1.3rem;
+  }
+  .stage {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  .stageNumber {
+    align-self: center;
+  }
+  .tutorialButton {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+  }
+}
