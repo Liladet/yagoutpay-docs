@@ -98,6 +98,8 @@ const config = {
     colorMode: {
       defaultMode: "light",
       respectPrefersColorScheme: true,
+      disableSwitch: true, // This removes the toggle button
+      respectPrefersColorScheme: false,
     },
   },
   stylesheets: [
