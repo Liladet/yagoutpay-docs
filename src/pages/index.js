@@ -44,7 +44,7 @@ function HomepageHeader() {
           <div className={styles.buttons}>
             <Link
               className={styles.tutorialButton}
-              to="http://localhost:3000/yagoutpay-docs/docs/intro"
+              to="https://yagoutpay.netlify.app/docs/intro"
             >
               GET STARTED <i className="fas fa-arrow-right"></i>
             </Link>
